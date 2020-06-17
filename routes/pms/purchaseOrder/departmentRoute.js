@@ -1,11 +1,11 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
-const db = require("../../../config/db");
+const db = require('../../../config/db');
 
-router.get("/department/:Organization_ID", (req, res) => {
+router.get('/department/:Organization_ID', (req, res) => {
   const { Organization_ID } = req.params;
   db.query(
-    "select Department_ID,Department_Name from department where Organization_ID = ?",
+    'select Department_ID,Department_Name from department where Organization_ID = ?',
     [Organization_ID],
 
     (error, results, fields) => {
@@ -16,8 +16,8 @@ router.get("/department/:Organization_ID", (req, res) => {
       } else {
         res.status(200).json(results);
       }
-    });
-  
+    }
+  );
 });
 
 module.exports = router;
