@@ -1,0 +1,7 @@
+echo "# TechbizERP-BackEnd" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/mshoaib/TechbizERP-BackEnd.git
+git push -u origin master
+     
