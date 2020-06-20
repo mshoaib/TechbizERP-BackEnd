@@ -4,7 +4,7 @@ const pool = createPool({
   connectionLimit: 5,
   host: 'localhost',
   user: 'root',
-  password: '1234',
+  password: '',
   database: 'techbiz_ebs',
   port: '3306'
 });

@@ -82,6 +82,9 @@ router.post('/post',(req,res) => {
       
       // console.log('Last Inserted Record : ',result.insertId)
       return res.status(200).send(`User_Role_ID : ${result.insertId} Record Inserted`)
+
+
+    
     })
   }
 })

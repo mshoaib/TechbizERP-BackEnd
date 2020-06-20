@@ -11,7 +11,7 @@ const {
 } = require('../../../joiSchemas/pms/purchaseReceive/joiPurRecLine');
 
 // @route    GET /api/pms/purchaseRece
-// @desc     Get Header
+// @desc     Get Line
 // @access   Private
 
 router.get('/get-header/:Organization_ID', async (req, res) => {
@@ -51,7 +51,7 @@ router.get('/get-header/:Organization_ID', async (req, res) => {
 });
 
 // @route    GET /api/pms/purchaseRece
-// @desc     Get Line
+// @desc     Populate Purchase Order Line
 // @access   Private
 
 router.get('/get-line/:PR_Header_ID', async (req, res) => {
@@ -123,19 +123,50 @@ router.get('/populate-polline/:PO_Header_ID', async (req, res) => {
 
 router.post('/create-dept', (req, res) => {
   let current_date = new Date();
+ // console.log(req.body.Emp);
 
-  let data = {
-    dept_no: req.body.dept_no,
-    dept_loc: req.body.dept_loc,
+  let deptData = {
+    dept_no: req.body.Dept[0].dept_no,
+    dept_loc: req.body.Dept[0].dept_loc,
     Creation_Date: current_date
   };
+  let empData = [];
+  
+  // req.body.Emp.forEach((Emp, index) => {
+  // let  data = {
+  //     deptid: Emp.deptid,
+  //     empno:  Emp.empno,
+  //     ename:  Emp.ename,
+  //     job:  Emp.job,
+  //     sal : Emp.sal
+  //   };
+
+
+  //   empData.push(data);
+
+  // });
+
+  
+
   let sql = 'INSERT INTO dept SET ?';
-  let query = pool.query(sql, data, (err, results) => {
+   pool.query(sql, deptData, (err, results) => {
     if (err) {
       //res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+      console.log('error')
       return res.status(400).send(err);
     }
+    console.log(empData);
+      sql = 'INSERT INTO emp (deptid,empno,ename,job,sal) values ?';
+    
+     pool.query(sql,[empData],(err1,results) =>{
+        if(err1){
+            return res.status(400).send(err1);
+        }
+    })
+    
     return res.status(200).send(`Dept : ${results.insertId} Record Inserted`);
+
+
   });
 });
 
