@@ -122,7 +122,7 @@ router.get('/populate-polline/:PO_Header_ID', async (req, res) => {
 // Create Department
 
 router.post('/create-dept', (req, res) => {
-  let current_date = new Date();
+  
  // console.log(req.body.Emp);
 
   let deptData = {
@@ -132,24 +132,23 @@ router.post('/create-dept', (req, res) => {
   };
   let empData = [];
   
-  // req.body.Emp.forEach((Emp, index) => {
-  // let  data = {
-  //     deptid: Emp.deptid,
-  //     empno:  Emp.empno,
-  //     ename:  Emp.ename,
-  //     job:  Emp.job,
-  //     sal : Emp.sal
-  //   };
+  req.body.Emp.forEach((Emp, index) => {
+  let  data = {
+      deptid: Emp.deptid,
+      empno:  Emp.empno,
+      ename:  Emp.ename,
+      job:  Emp.job,
+      sal : Emp.sal
+    };
 
+    empData.push(Object.values(data));
 
-  //   empData.push(data);
-
-  // });
+  });
 
   
 
   let sql = 'INSERT INTO dept SET ?';
-   pool.query(sql, deptData, (err, results) => {
+   pool.query(sql, deptData, (err, result) => {
     if (err) {
       //res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
       console.log('error')
@@ -158,48 +157,47 @@ router.post('/create-dept', (req, res) => {
     console.log(empData);
       sql = 'INSERT INTO emp (deptid,empno,ename,job,sal) values ?';
     
-     pool.query(sql,[empData],(err1,results) =>{
-        if(err1){
-            return res.status(400).send(err1);
+     pool.query(sql,[empData],(err,result) =>{
+      if(err){
+            return res.status(400).send(err);
         }
     })
     
-    return res.status(200).send(`Dept : ${results.insertId} Record Inserted`);
-
+    return res
+    .status(200)
+    .send(`${result.affectedRows} Records Added SuccessFully.`);
 
   });
 });
 
-// router.post("/create-dept", (req, res) => {
-//     //const header  = req.body;
-//       let {data} = {dept_no: req.body.dept_no, dept_loc: req.body.dept_loc,Creation_Date: req.body.Creation_Date};
 
-//     const { type } = req.params;
-//   let  error = "";
 
-// //	let { error, value } = joiPurchaseLineArray.validate(lines);
-// 	//let { error1, value1 } = joiPurchaseHeaderInsert.validate(header);
-// 	if (error) {
-// 		console.log(error,error1)
-// 		return res.status(403).send(error);
-// 	} else {
-// 		let sql = "INSERT INTO dept SET ?";
-// 		pool.query(sql, data, (err, result) => {
-// 			if (err) {
-// 				console.log(err);
-// 				return res.status(400).send(err);
-// 			}
 
-// 		});
-// 	}
-// });
+
+
 
 router.post('/create-purchaseRece', (req, res) => {
-  const { lines, header } = req.body;
+  //const { lines, header } = req.body;
+  let current_date = new Date();
+  let header = {
+    PR_NO:   req.body.PR_NO,
+    PR_Date: current_date,
+    Supplier_ID:   req.body.Supplier_ID,
+    PO_Header_ID:   req.body.PO_Header_ID,
+    Receive_Location_ID: req.body.Receive_Location_ID,
+    Status: req.body.Status,
+    Remarks: req.body.Remarks,
+    Organization_ID:  req.body.Organization_ID,
+    Branch_ID: req.body.Branch_ID,
+    Branch_ID: req.body.Branch_ID,
+    Creation_Date:current_date, 
+    Created_By:req.body.Created_By, 
+    Last_Updated_By:req.body.Last_Updated_By
+    }
   const { type } = req.params;
   let error = '';
 
-  //	let { error, value } = joiPurchaseLineArray.validate(lines);
+//    	let { error, value } = joiPurchaseLineArray.validate(lines);
   //let { error1, value1 } = joiPurchaseHeaderInsert.validate(header);
   if (error) {
     console.log(error, error1);
@@ -212,6 +210,12 @@ router.post('/create-purchaseRece', (req, res) => {
         return res.status(400).send(err);
       }
     });
+
+    return res
+    .status(200)
+    .send(`${result.affectedRows} Records Added SuccessFully.`);
+
+
   }
 });
 

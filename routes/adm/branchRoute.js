@@ -52,8 +52,8 @@ const { joiBranchValidate } = require('../../joiSchemas/adm/joibranch');
 // @access   Private 
 
    router.post('/create-branch', async (req, res) => {
-    
-    let current_date = new Date();
+     
+   let current_date = new Date();
    const body = req.body;
    
    const { error, value } = joiBranchValidate.validate(req.body);
