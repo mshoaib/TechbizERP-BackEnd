@@ -1,8 +1,12 @@
-//@ Validation for Department
+//@ Validation for Item Category
 const Joi = require('@hapi/joi');
 
-const joiDeptValidate = Joi.object({
-  Department_Name: Joi.string().max(250).required(),
+const joiCoaValidate = Joi.object({
+  COA_Name: Joi.string().max(250),
+  COA_PARENT_CODE: Joi.string().max(250),
+  COA_Parent_ID: Joi.number(),
+  COA_Level_ID: Joi.number(),
+
   Organization_ID: Joi.number().required(),
   Enabled_Flag: Joi.string(),
   Creation_Date: Joi.date(),
@@ -11,5 +15,5 @@ const joiDeptValidate = Joi.object({
 });
 
 module.exports = {
-  joiDeptValidate
+  joiCoaValidate
 };

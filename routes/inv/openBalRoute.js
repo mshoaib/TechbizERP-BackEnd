@@ -180,10 +180,7 @@ router.put('/update-opening-bal/:id', (req, res) => {
       (err, results, fields) => {
         if (!err) {
           // res.send(results)
-          console.log(results[0].Header_ID);
-          console.log(req.params.id);
-          console.log(+results[0].Header_ID === +req.params.id);
-          console.log(results[0].count);
+
           if (
             results[0].count >= 1 &&
             +results[0].Header_ID !== +req.params.id

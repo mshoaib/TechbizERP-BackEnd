@@ -7,6 +7,10 @@ const errorHandler = require(`./middleware/error`);
 /************   Login  *******************/
 const loginRoute = require('./routes/loginRoute');
 
+/************   Reset  *******************/
+
+const resetRoute = require('./routes/misc/resetRoute');
+
 /************   Inventory  *******************/
 const uomRoute = require('./routes/inv/uomRoute');
 const icgtRoute = require('./routes/inv/icgtRoute');
@@ -49,6 +53,14 @@ const supplierLovRouter = require('./routes/pms/purchaseOrder/supplierLovRoute')
 const supplierRouter = require('./routes/pms/supplierRoute');
 const purchasaeReceRouter = require('./routes/pms/purchaseReceive/purchaseReceRoute');
 const pmsrRoute = require('./routes/pms/pmsrRoute');
+const purInvoiceRoute = require('./routes/pms/purchaseInvoice/purInvoiceRoute');
+
+/************   Finance  *******************/
+const bankRoute = require('./routes/fin/bankRoute');
+const bankBranchRoute = require('./routes/fin/branchRoute');
+const coaLeveRoute = require('./routes/fin/coaLeveRoute');
+const coaRoute = require('./routes/fin/coaRoute');
+const bankLov = require('./routes/fin/lovRoute');
 
 //const cors = require('cors')
 
@@ -69,6 +81,7 @@ app.use(cors());
 //********************************************************** */
 
 app.use('/api/', loginRoute); // Login Authentication
+app.use('/api/', resetRoute); // Reset Password
 
 // @ ***************** Security Module *********************
 
@@ -113,9 +126,18 @@ app.use('/api/pms/purchaseOrder/', itemLovRouter); //po
 app.use('/api/pms/purchaseOrder/', supplierLovRouter); //po
 app.use('/api/pms/purchaseOrder', departmentLovRouter); //po
 app.use('/api/pms/purchaseOrder', purchaseOrderRouter); //purchaseOrder Route
+app.use('/api/pms/purchaseInvoice', purInvoiceRoute); //purchaseOrder Route
 app.use('/api/pms/', supplierRouter); //Supplier
 app.use('/api/pms/purchaseRece/', purchasaeReceRouter); //Purchase Receiving
 app.use('/api/pms/', pmsrRoute); //Pms  Report
+
+// @ ***************** Finance Module *********************
+app.use('/api/fin/', bankRoute); // Bank Route
+app.use('/api/fin/', bankBranchRoute); // Bank Branch Route
+app.use('/api/fin/', coaLeveRoute); // COA Level Route
+app.use('/api/fin/', coaRoute); // COA  Route
+app.use('/api/fin/', bankLov); // Bank Branch lov Route
+
 app.use(errorHandler);
 
 // Initialize port
